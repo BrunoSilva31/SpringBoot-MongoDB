@@ -2,11 +2,13 @@ package com.mongoproject.demo.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mongoproject.demo.domain.User;
+import com.mongoproject.demo.dto.UserDTO;
 import com.mongoproject.demo.repository.UserRepository;
 import com.mongoproject.demo.services.exception.ObjectNotFoundException;
 
@@ -29,5 +31,18 @@ public class UserService {
     }
 
 
-    
+    public User insert(User obj) {
+        if (obj.getId() == null) {
+            obj.setId(UUID.randomUUID().toString());
+        }
+        
+        return repo.insert(obj);
+    }
+
+
+   public User fromDTO(UserDTO objDto) {
+
+    return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
+   }
+
 }
